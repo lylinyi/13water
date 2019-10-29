@@ -63,18 +63,19 @@ def play(id, cards, token):
     if response.json()["status"] == 0:
         print("出牌成功")
         return 0
-    print("出牌错误")
+    print("出牌错误:")
+    print(response.text)
 
 
-def login():
+def login(name,psw):
     url1 = "http://www.revth.com:12300/auth/login"
     # url2 = "http://www.revth.com:12300/auth/validate"
     headers1 = {
         "Content-Type": 'application/json',
     }
     form_data = {
-        "username": "sbrg",
-        "password": "123"
+        "username": name,
+        "password": psw,
     }
     response = requests.post(url=url1, headers=headers1, data=json.dumps(form_data), verify=False)
     # print(response.text)
@@ -91,7 +92,7 @@ def get_detail(token, id):
     header = {
         "X-Auth-Token": token,
     }
-    response = requests.get(url,headers=header)
+    response = requests.get(url, headers=header)
     print(response.text)
     re_js = response.json()
     if re_js["status"] == 0:
@@ -99,14 +100,14 @@ def get_detail(token, id):
     else:
         return False
 
-# todo
+
 def get_game_list(token):
-    url="http://api.revth.com/history"
+    url = "http://api.revth.com/history"
     header = {
         "X-Auth-Token": token,
     }
     params = {'player_id': '25', 'limit': '10', 'page': 0}
-    response = requests.get(url,headers=header,params=params)
+    response = requests.get(url, headers=header, params=params)
 
     re_js = response.json()
 
@@ -131,20 +132,12 @@ def get_ranking():
     return re_js
 
 
-user = {
-    "username": "sbrg",
-    "password": "123",
-}
-jwc = {
-    "student_number": "041702108",
-    "student_password": "linyi0108",
-}
+
 if __name__ == '__main__':
     # register(user, jwc)
-    token=login()
+    token = login()
     get_game_list(token)
-    # get_ranking()
-    get_detail(token,61252)
-
+    get_ranking()
+    get_detail(token, 60600)
 
 # 38b250a2-94e4-4afe-a8dd-1df58fd73726
