@@ -5,6 +5,7 @@ import pattern
 import weight
 import itertools
 import time
+
 color_map = {'#': 0, '*': 1, '&': 2, '$': 3}
 number_map = {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11,
               'Q': 12, 'K': 13, 'A': 14}
@@ -108,8 +109,8 @@ def solve(card):
     :param card13: 服务器返回的字符串列表
     :return: 符合参数格式的字符串列表
     """
-    card=to_card(card)
-
+    card = to_card(card)
+    cnt = 0
     card_list = card
     # FLAG=0
     # print(card)
@@ -140,11 +141,12 @@ def solve(card):
             n1 = get_weight(2, card1)
             n2 = get_weight(1, card2)
             n3 = get_weight(0, card3)
+
             if (n1 > n2 and n2 > n3):
                 # if FLAG==1:
                 #     ans = card3 + card2 + card1
                 #     return ans
-                if(n1[2] + n2[2] + n3[2] > max):
+                if (n1[2] + n2[2] + n3[2] > max):
                     ans = card3 + card2 + card1
                     max = n1[2] + n2[2] + n3[2]
                     # print("----maxnum----:"+str(max)+"="+str(n1[2])+"+"+str(n2[2])+"+"+str(n3[2]))
@@ -153,21 +155,11 @@ def solve(card):
     return ans
 
 
-# {
-#   "id": 1000,
-#   "card": [
-#     "*2 *3 *4",
-#     "*5 *6 *7 *8 *9",
-#     "*10 *J *Q *K *A"
-#   ]
-# }
-
-
 def main():
-    # card = "$K *10 $5 #9 *J $4 *2 #K $Q #J #4 &6 *5"
-    #
+    card = "*5 &Q &7 $3 *A #3 &6 $9 $6 *10 *3 $J &5"
+
     # # print(get_weight(1, to_card("&2 #3 $6 $Q &Q")))
-    # res=solve(card)
+    # res = solve(card)
     # print(res)
 
     token=api.login()
@@ -175,16 +167,14 @@ def main():
     res = solve(card)
     api.play(game_id, res, token)
     print("--------比赛结果---------")
-    time.sleep(10)
-    api.get_detail(token, game_id)
+
+    time.sleep(2)
+    api.get_game_list(token)
+    # api.get_detail(token, game_id)
 
     print("-------------------")
     print()
 
 
-#4 &4 &K *5 $5 $7 *8 *J &2 #3 $6 $Q &Q
-
 if __name__ == '__main__':
     main()
-
-

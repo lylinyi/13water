@@ -22,7 +22,7 @@ class Card:
             print(self.cnt_color)
             print("-------------------------------------------")
     # -----------普通牌型-------------------
-    # todo:连对
+
     def is_tcpair(self):
         cnt = 0
         nums = []
